@@ -1,0 +1,11 @@
+[install]
+cmake = {}
+gcc = {}
+ncurses = {}
+
+[hook]
+script = """
+	alias build="cmake -DCURSES_LIBRARY=$FLOX_ENV/lib/libncurses.so -DCURSES_INCLUDE_PATH=$FLOX_ENV/include . && make -j5"
+	alias run="./nrogue"
+"""
+

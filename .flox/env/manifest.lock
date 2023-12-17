@@ -1,0 +1,142 @@
+{
+  "lockfile-version": 0,
+  "manifest": {
+    "hook": {
+      "script": "\talias build=\"cmake -DCURSES_LIBRARY=$FLOX_ENV/lib/libncurses.so -DCURSES_INCLUDE_PATH=$FLOX_ENV/include . && make -j5\"\n\talias run=\"./nrogue\"\n"
+    },
+    "install": {
+      "cmake": null,
+      "gcc": null,
+      "ncurses": null
+    },
+    "registry": {
+      "defaults": {
+        "subtrees": null
+      },
+      "inputs": {
+        "nixpkgs": {
+          "from": {
+            "owner": "NixOS",
+            "ref": "release-23.05",
+            "repo": "nixpkgs",
+            "type": "github"
+          },
+          "subtrees": [
+            "legacyPackages"
+          ]
+        }
+      },
+      "priority": [
+        "nixpkgs"
+      ]
+    }
+  },
+  "packages": {
+    "x86_64-linux": {
+      "cmake": {
+        "attr-path": [
+          "legacyPackages",
+          "x86_64-linux",
+          "cmake"
+        ],
+        "info": {
+          "broken": false,
+          "license": "BSD-3-Clause",
+          "pname": "cmake",
+          "unfree": false,
+          "version": "3.25.3"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1702777222,
+            "narHash": "sha256-/SYmqgxTYzqZnQEfbOCHCN4GzqB9uAIsR9IWLzo0/8I=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "a19a71d1ee93226fd71984359552affbc1cd3dc3",
+            "type": "github"
+          },
+          "fingerprint": "829ab44ba91dea65354e4532a6f12585f98ef8d96e7f3095c740c3d82891bcbc",
+          "url": "github:NixOS/nixpkgs/a19a71d1ee93226fd71984359552affbc1cd3dc3"
+        },
+        "priority": 5
+      },
+      "gcc": {
+        "attr-path": [
+          "legacyPackages",
+          "x86_64-linux",
+          "gcc"
+        ],
+        "info": {
+          "broken": false,
+          "license": "GPL-3.0-or-later",
+          "pname": "gcc-wrapper",
+          "unfree": false,
+          "version": "12.2.0"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1702777222,
+            "narHash": "sha256-/SYmqgxTYzqZnQEfbOCHCN4GzqB9uAIsR9IWLzo0/8I=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "a19a71d1ee93226fd71984359552affbc1cd3dc3",
+            "type": "github"
+          },
+          "fingerprint": "829ab44ba91dea65354e4532a6f12585f98ef8d96e7f3095c740c3d82891bcbc",
+          "url": "github:NixOS/nixpkgs/a19a71d1ee93226fd71984359552affbc1cd3dc3"
+        },
+        "priority": 5
+      },
+      "ncurses": {
+        "attr-path": [
+          "legacyPackages",
+          "x86_64-linux",
+          "ncurses"
+        ],
+        "info": {
+          "broken": false,
+          "license": "MIT",
+          "pname": "ncurses",
+          "unfree": false,
+          "version": "6.4"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1702777222,
+            "narHash": "sha256-/SYmqgxTYzqZnQEfbOCHCN4GzqB9uAIsR9IWLzo0/8I=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "a19a71d1ee93226fd71984359552affbc1cd3dc3",
+            "type": "github"
+          },
+          "fingerprint": "829ab44ba91dea65354e4532a6f12585f98ef8d96e7f3095c740c3d82891bcbc",
+          "url": "github:NixOS/nixpkgs/a19a71d1ee93226fd71984359552affbc1cd3dc3"
+        },
+        "priority": 5
+      }
+    }
+  },
+  "registry": {
+    "defaults": {
+      "subtrees": null
+    },
+    "inputs": {
+      "nixpkgs": {
+        "from": {
+          "lastModified": 1702777222,
+          "narHash": "sha256-/SYmqgxTYzqZnQEfbOCHCN4GzqB9uAIsR9IWLzo0/8I=",
+          "owner": "NixOS",
+          "repo": "nixpkgs",
+          "rev": "a19a71d1ee93226fd71984359552affbc1cd3dc3",
+          "type": "github"
+        },
+        "subtrees": [
+          "legacyPackages"
+        ]
+      }
+    },
+    "priority": [
+      "nixpkgs"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-build*/
+CM1build*/
 obj/
 dumb-compile/build/
 dumb-compile/CMakeFiles/
@@ -16,3 +16,6 @@ core.*
 *.out
 *.exe
 /*.bmp
+CMakeFiles
+cmake_install.cmake
+Makefile
