@@ -2,6 +2,7 @@
 cmake = {}
 gcc = {}
 ncurses = {}
+coreutils = {} # to get around realpath bug for now
 
 [hook]
 script = """

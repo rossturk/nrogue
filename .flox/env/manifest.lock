@@ -6,6 +6,7 @@
     },
     "install": {
       "cmake": null,
+      "coreutils": null,
       "gcc": null,
       "ncurses": null
     },
@@ -32,11 +33,11 @@
     }
   },
   "packages": {
-    "x86_64-linux": {
+    "aarch64-darwin": {
       "cmake": {
         "attr-path": [
           "legacyPackages",
-          "x86_64-linux",
+          "aarch64-darwin",
           "cmake"
         ],
         "info": {
@@ -60,10 +61,37 @@
         },
         "priority": 5
       },
+      "coreutils": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "coreutils"
+        ],
+        "info": {
+          "broken": false,
+          "license": "GPL-3.0-or-later",
+          "pname": "coreutils",
+          "unfree": false,
+          "version": "9.1"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1702777222,
+            "narHash": "sha256-/SYmqgxTYzqZnQEfbOCHCN4GzqB9uAIsR9IWLzo0/8I=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "a19a71d1ee93226fd71984359552affbc1cd3dc3",
+            "type": "github"
+          },
+          "fingerprint": "829ab44ba91dea65354e4532a6f12585f98ef8d96e7f3095c740c3d82891bcbc",
+          "url": "github:NixOS/nixpkgs/a19a71d1ee93226fd71984359552affbc1cd3dc3"
+        },
+        "priority": 5
+      },
       "gcc": {
         "attr-path": [
           "legacyPackages",
-          "x86_64-linux",
+          "aarch64-darwin",
           "gcc"
         ],
         "info": {
@@ -90,7 +118,7 @@
       "ncurses": {
         "attr-path": [
           "legacyPackages",
-          "x86_64-linux",
+          "aarch64-darwin",
           "ncurses"
         ],
         "info": {
