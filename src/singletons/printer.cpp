@@ -769,7 +769,7 @@ void Printer::PrintFB(const int& x, const int& y,
 
   // Black & White mode for Windows due to PDCurses not handling colors correctly
 
-  #if !(defined(__unix__) || defined(__linux__))
+  #if defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__))
 
   uint32_t tmpFg;
   uint32_t tmpBg;

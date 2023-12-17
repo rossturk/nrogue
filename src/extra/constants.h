@@ -44,7 +44,8 @@
 
   // 262, 259, 339, 260, 350, 261, 360, 258, 338
 
-  #if defined(__unix__) || defined(__linux__)
+  #if defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__))
+
 
   // NOTE: probably will work in xterm only
 
