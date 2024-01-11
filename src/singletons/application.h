@@ -34,6 +34,7 @@ class Application : public Singleton<Application>
 
     void WriteObituary(bool wasKilled = true);
 
+    void LoadGame();
     void SaveGame();
 
     Player PlayerInstance;
@@ -153,6 +154,9 @@ class Application : public Singleton<Application>
     };
 
     StatInfo GetStatInfo(const std::string& attrName);
+
+    void SaveBaseStuff(NRS& save);
+    void SavePlayer(NRS& save);
 
     void PrepareChars();
 

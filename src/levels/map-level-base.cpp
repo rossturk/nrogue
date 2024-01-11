@@ -670,27 +670,13 @@ void MapLevelBase::SerializeLayout(NRS& saveTo)
 {
   namespace SK = Strings::SerializationKeys;
 
-  // ---------------- BASE STUFF ----------------
-
   NRS& root = saveTo[SK::Root];
 
-  root[SK::Gid].SetUInt(GID::Instance().GetCurrentGlobalId());
-
-  {
-    NRS& node = root[SK::Seed];
-
-    node[SK::Name].SetString(RNG::Instance().GetSeedString().first);
-    node[SK::Value].SetUInt(RNG::Instance().Seed);
-  }
-
-  std::string lvlNodeName = Util::StringFormat("level_%d", (int)MapType_);
-
-  NRS& levelNode = root[lvlNodeName];
+  NRS& levelNode = root[std::to_string((int)MapType_)];
 
   levelNode[SK::Size].SetInt(MapSize.X, 0);
   levelNode[SK::Size].SetInt(MapSize.Y, 1);
 
-  levelNode[SK::Type].SetInt((int)MapType_);
   levelNode[SK::Name].SetString(LevelName);
 
   levelNode[SK::Visibility].SetInt(VisibilityRadius);
@@ -754,11 +740,10 @@ void MapLevelBase::SerializeLayout(NRS& saveTo)
 
       indexByKey[sdm.ToStringKey()] = index;
 
-      std::string objKey = Util::StringFormat("o_%d", index);
-
-      NRS& n = node[objKey];
+      NRS& n = node[std::to_string(index)];
 
       n[SK::Type].SetInt((int)sdm.Type);
+      n[SK::Zone].SetInt((int)sdm.ZoneMarker);
       n[SK::Image].SetInt(sdm.Image);
       n[SK::Color].SetString(Util::NumberToHexString(sdm.FgColor), 0);
       n[SK::Color].SetString(Util::NumberToHexString(sdm.BgColor), 1);
@@ -797,11 +782,13 @@ void MapLevelBase::SerializeLayout(NRS& saveTo)
 
       int ind1 = indexByKey[key];
 
-      if (StaticMapObjects[x][y] != nullptr
-      && (StaticMapObjects[x][y]->Type == GameObjectType::PICKAXEABLE
-       || StaticMapObjects[x][y]->Type == GameObjectType::BORDER))
+      GameObject* so = StaticMapObjects[x][y].get();
+
+      if (so != nullptr
+      && (so->Type == GameObjectType::PICKAXEABLE
+       || so->Type == GameObjectType::BORDER))
       {
-        const SDM& sdm = StaticMapObjects[x][y]->GetSaveDataMinimal();
+        const SDM& sdm = so->GetSaveDataMinimal();
 
         const std::string& key = sdm.ToStringKey();
 
@@ -827,7 +814,30 @@ void MapLevelBase::SerializeLayout(NRS& saveTo)
 
 void MapLevelBase::SerializeObjects(NRS& saveTo)
 {
-  // TODO:
+  namespace SK = Strings::SerializationKeys;
+
+  NRS& root    = saveTo[SK::Root];
+  NRS& objects = root[SK::Objects];
+
+  int index = 0;
+
+  for (int y = 0; y < MapSize.Y; y++)
+  {
+    for (int x = 0; x < MapSize.X; x++)
+    {
+      GameObject* so = StaticMapObjects[x][y].get();
+
+      if (so != nullptr
+      && (so->Type != GameObjectType::PICKAXEABLE
+       && so->Type != GameObjectType::BORDER))
+      {
+        NRS& node = objects[std::to_string(index)];
+        so->Serialize(node);
+
+        index++;
+      }
+    }
+  }
 }
 
 // =============================================================================
@@ -853,8 +863,6 @@ void MapLevelBase::SerializeActors(NRS& saveTo)
   NRS& root = saveTo[SK::Root];
 
   // TODO:
-
-  _playerRef->Serialize(root);
 }
 
 // =============================================================================
@@ -1145,7 +1153,10 @@ void MapLevelBase::PlaceWall(int x, int y,
 
 // =============================================================================
 
-void MapLevelBase::PlaceDoor(int x, int y, bool isOpen, size_t openedBy, const std::string& objName)
+void MapLevelBase::PlaceDoor(int x, int y,
+                             bool isOpen,
+                             size_t openedBy,
+                             const std::string& objName)
 {
   if (IsOutOfBounds(x, y))
   {
@@ -1158,6 +1169,7 @@ void MapLevelBase::PlaceDoor(int x, int y, bool isOpen, size_t openedBy, const s
     DoorComponent* dc = door->GetComponent<DoorComponent>();
     dc->OpenedBy = openedBy;
   }
+
   PlaceStaticObject(door);
 }
 
@@ -1286,7 +1298,7 @@ void MapLevelBase::CreateSpecialObjects(int x, int y, const MapCell& cell)
     {
       if (std::holds_alternative<GameObjectType>(cell.ObjectHere))
       {
-        if(std::get<GameObjectType>(cell.ObjectHere) == GameObjectType::CHEST)
+        if(std::get<GameObjectType>(cell.ObjectHere) == GameObjectType::CONTAINER)
         {
           GameObject* go = GameObjectsFactory::Instance().CreateChest(x, y, Util::Rolld100(50));
           go->PosX = x;

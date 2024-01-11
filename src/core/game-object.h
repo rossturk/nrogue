@@ -94,8 +94,7 @@ class GameObject
     {
       for (auto& c : _components)
       {
-        if (c.second.get() != nullptr
-         && c.second.get()->GetComponentHash() == typeid(T).hash_code())
+        if (c.second.get() != nullptr && typeid(*c.second.get()) == typeid(T))
         {
           return static_cast<T*>(c.second.get());
         }
@@ -273,6 +272,7 @@ class GameObject
     struct SaveDataMinimal
     {
       GameObjectType Type = GameObjectType::NONE;
+      TransformedRoom ZoneMarker = TransformedRoom::UNMARKED;
       int Image = '?';
       int PosX  = 0;
       int PosY  = 0;
@@ -287,6 +287,7 @@ class GameObject
         std::stringstream ss;
 
         ss << (int)Type
+           << (int)ZoneMarker
            << Image
            << Util::NumberToHexString(FgColor)
            << Util::NumberToHexString(BgColor)

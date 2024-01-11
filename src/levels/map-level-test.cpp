@@ -39,20 +39,13 @@ void MapLevelTest::CreateLevel()
                 Colors::ShadesOfGrey::Six,
                 Strings::TileNames::RocksText);
 
-  {
-    GameObject* go = GameObjectsFactory::Instance().CreateChest(5, 5, false);
-    PlaceGameObject(go);
-  }
+  GameObject* go = GameObjectsFactory::Instance().CreateChest(5, 5, false);
+  PlaceGameObject(go);
 
-  {
-    GameObject* go = GameObjectsFactory::Instance().CreateDoor(10, 10, false);
-    PlaceStaticObject(go);
-  }
+  PlaceDoor(10, 10, false);
+  PlaceDoor(10, 11, true);
 
-  {
-    GameObject* go = GameObjectsFactory::Instance().CreateDoor(10, 11, true);
-    PlaceStaticObject(go);
-  }
+  PlaceShrine({ 13, 13 }, ShrineType::HEALING);
 }
 
 // =============================================================================

@@ -384,17 +384,68 @@ void Application::WriteObituary(bool wasKilled)
 
 void Application::SaveGame()
 {
+  using C  = std::chrono::system_clock;
+  using TP = std::chrono::time_point<C>;
+
   NRS save;
+
+  DebugLog("saving game...");
+
+  TP before = C::now();
+
+  SaveBaseStuff(save);
 
   //
   // FIXME: one level for now
   //
   Map::Instance().CurrentLevel->Serialize(save);
 
+  SavePlayer(save);
+
   if (!save.Save(Strings::SaveFileName))
   {
     ConsoleLog("Couldn't save at %s !", Strings::SaveFileName.data());
   }
+  else
+  {
+    FT::duration<double, std::milli> dur = C::now() - before;
+    DebugLog("done in %.4f ms", dur.count());
+  }
+}
+
+// =============================================================================
+
+void Application::SaveBaseStuff(NRS& save)
+{
+  namespace SK = Strings::SerializationKeys;
+
+  NRS& root = save[SK::Root];
+
+  root[SK::Gid].SetUInt(GID::Instance().GetCurrentGlobalId());
+  {
+    NRS& node = root[SK::Seed];
+
+    node[SK::Name].SetString(RNG::Instance().GetSeedString().first);
+    node[SK::Value].SetUInt(RNG::Instance().Seed);
+  }
+}
+
+// =============================================================================
+
+void Application::SavePlayer(NRS& save)
+{
+  namespace SK = Strings::SerializationKeys;
+
+  NRS& root = save[SK::Root];
+
+  PlayerInstance.Serialize(root);
+}
+
+// =============================================================================
+
+void Application::LoadGame()
+{
+  // TODO:
 }
 
 // =============================================================================

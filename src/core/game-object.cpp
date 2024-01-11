@@ -13,6 +13,7 @@
 #include "serializer.h"
 #include "blackboard.h"
 #include "gid-generator.h"
+#include "door-component.h"
 
 #ifdef DEBUG_BUILD
 #include "dev-console.h"
@@ -1613,6 +1614,25 @@ void GameObject::Serialize(NRS& section)
       n[SK::Owner].SetInt((int)_levelOwner->MapType_);
     }
     break;
+
+    // -------------------------------------------------------------------------
+
+    case GameObjectType::DOOR:
+    {
+      ptr = &section;
+
+      DoorComponent* dc = GetComponent<DoorComponent>();
+      if (dc != nullptr)
+      {
+        NRS& n = *ptr;
+      }
+    }
+    break;
+
+    // -------------------------------------------------------------------------
+
+    default:
+      break;
   }
 
   if (ptr != nullptr)
@@ -1623,6 +1643,8 @@ void GameObject::Serialize(NRS& section)
     n[SK::Image].SetInt(Image);
     n[SK::Color].SetString(Util::NumberToHexString(FgColor), 0);
     n[SK::Color].SetString(Util::NumberToHexString(BgColor), 1);
+    n[SK::Pos].SetInt(PosX, 0);
+    n[SK::Pos].SetInt(PosY, 1);
 
     uint16_t mask = Util::BoolFlagsToMask({
                                             Special,
@@ -1643,23 +1665,24 @@ void GameObject::Serialize(NRS& section)
 
 const GameObject::SaveDataMinimal& GameObject::GetSaveDataMinimal()
 {
-  _sdm.Type    = Type;
-  _sdm.Image   = Image;
-  _sdm.PosX    = PosX;
-  _sdm.PosY    = PosY;
-  _sdm.FgColor = FgColor;
-  _sdm.BgColor = BgColor;
-  _sdm.Name    = ObjectName;
-  _sdm.FowName = FogOfWarName;
-  _sdm.Mask    = Util::BoolFlagsToMask({
-                                         Special,
-                                         Blocking,
-                                         BlocksSight,
-                                         Revealed,
-                                         Corporeal,
-                                         Visible,
-                                         IsLiving
-                                       });
+  _sdm.Type       = Type;
+  _sdm.ZoneMarker = ZoneMarker;
+  _sdm.Image      = Image;
+  _sdm.PosX       = PosX;
+  _sdm.PosY       = PosY;
+  _sdm.FgColor    = FgColor;
+  _sdm.BgColor    = BgColor;
+  _sdm.Name       = ObjectName;
+  _sdm.FowName    = FogOfWarName;
+  _sdm.Mask       = Util::BoolFlagsToMask({
+                                            Special,
+                                            Blocking,
+                                            BlocksSight,
+                                            Revealed,
+                                            Corporeal,
+                                            Visible,
+                                            IsLiving
+                                          });
 
   return _sdm;
 }

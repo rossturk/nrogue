@@ -3001,7 +3001,23 @@ namespace Util
     }
 
     std::hash<std::string> hasher;
-    std::string str = std::to_string((int)item->Data.Prefix) + item->OwnerGameObject->ObjectName;
+    std::string str = StringFormat("%d%s",
+                                   (int)item->Data.Prefix,
+                                   item->OwnerGameObject->ObjectName.data());
     return hasher(str);
+  }
+
+  // ===========================================================================
+
+  void UpdateItemPrefix(ItemComponent *item, ItemPrefix prefixToSet)
+  {
+    if (item == nullptr)
+    {
+      DebugLog("[WAR] CalculateItemHash() - item is null!");
+      return;
+    }
+
+    item->Data.Prefix = prefixToSet;
+    item->Data.ItemTypeHash = CalculateItemHash(item);
   }
 }
